@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         listaCesur = cesurDAO.cargarTodosLosCesures(this)
         binding.rvCesur.layoutManager = LinearLayoutManager(this)
         binding.rvCesur.adapter =

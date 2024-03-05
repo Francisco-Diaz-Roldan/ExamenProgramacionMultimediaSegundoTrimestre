@@ -38,11 +38,9 @@ class OpenStreetMapsActivity : AppCompatActivity() {
 
         for (cesur in listaCesures) {
             val overlayItem = OverlayItem(
-                "${cesur.nombre}",
-                "${cesur.direccion}",
+                "${cesur.nombre}\n${cesur.direccion}",
                 "${cesur.ciudad}",
                 GeoPoint(cesur.latitud, cesur.longitud),
-                //Todo ñadirle la imagen
             )
             items.add(overlayItem)
         }
