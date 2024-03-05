@@ -7,5 +7,5 @@ class Cesur(
     val ciudad : String,
     val imagen : Int,
     val latitud : Double,
-    val lonfitud : Double
+    val longitud : Double
 )

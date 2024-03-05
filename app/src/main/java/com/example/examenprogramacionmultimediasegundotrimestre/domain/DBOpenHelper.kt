@@ -47,7 +47,7 @@ class DBOpenHelper private constructor(context: Context?):
                         "'${cesur.ciudad}'," +
                         "${cesur.imagen}," +
                         "${cesur.latitud}," +
-                        "${cesur.lonfitud});"
+                        "${cesur.longitud});"
             )
         }
     }
