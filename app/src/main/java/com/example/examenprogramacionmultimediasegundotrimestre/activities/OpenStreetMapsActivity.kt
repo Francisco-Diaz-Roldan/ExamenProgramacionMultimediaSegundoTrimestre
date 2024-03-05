@@ -3,6 +3,8 @@ package com.example.examenprogramacionmultimediasegundotrimestre.activities
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.core.content.ContextCompat
+import com.example.examenprogramacionmultimediasegundotrimestre.R
 import com.example.examenprogramacionmultimediasegundotrimestre.adapter.CesurProvider
 import com.example.examenprogramacionmultimediasegundotrimestre.databinding.ActivityOpenStreetMapsBinding
 import org.osmdroid.config.Configuration
@@ -11,11 +13,14 @@ import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.ItemizedIconOverlay
 import org.osmdroid.views.overlay.ItemizedOverlayWithFocus
+import org.osmdroid.views.overlay.Marker
 import org.osmdroid.views.overlay.OverlayItem
+private lateinit var map: MapView
+private lateinit var binding: ActivityOpenStreetMapsBinding
+private lateinit var mOverlay: ItemizedOverlayWithFocus<OverlayItem>
 
-private lateinit var  map: MapView
-private lateinit var  binding: ActivityOpenStreetMapsBinding
 class OpenStreetMapsActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Configuration.getInstance()
@@ -23,18 +28,20 @@ class OpenStreetMapsActivity : AppCompatActivity() {
         binding = ActivityOpenStreetMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val paisLatitud = intent.getDoubleExtra("latitud", 0.0)
-        val paisLongitud = intent.getDoubleExtra("longitud", 0.0)
+        val cesurLatitud = intent.getDoubleExtra("latitud", 0.0)
+        val cesurLongitud = intent.getDoubleExtra("longitud", 0.0)
 
         map = binding.map
         map.setTileSource(TileSourceFactory.MAPNIK)
         map.setMultiTouchControls(true)
         val mapController = map.controller
-        mapController.setZoom(19)
+        mapController.setZoom(17)
 
-        val items: ArrayList<OverlayItem> = ArrayList()
-
+        // Lista de cesures
         val listaCesures = CesurProvider.listaCesures
+
+        // Creo los marcadores
+        val items: ArrayList<OverlayItem> = ArrayList()
 
         for (cesur in listaCesures) {
             val overlayItem = OverlayItem(
@@ -45,30 +52,25 @@ class OpenStreetMapsActivity : AppCompatActivity() {
             items.add(overlayItem)
         }
 
-        val mOverlay: ItemizedOverlayWithFocus<OverlayItem> =
-            ItemizedOverlayWithFocus(
-                items,
-                object : ItemizedIconOverlay.OnItemGestureListener<OverlayItem?>{
-                    override fun onItemSingleTapUp(index: Int, item: OverlayItem?): Boolean {
-                        return true
-                    }
+        // Añado los marcadores al mapa
+        for (cesur in listaCesures) {
+            val punto = GeoPoint(cesur.latitud, cesur.longitud)
+            val startMarker = Marker(map)
+            startMarker.position = punto
+            startMarker.icon = ContextCompat.getDrawable(this, R.drawable.cesur2)
+            startMarker.title = "nombre" + "\n" + "${cesur.direccion}" + "\n" + "${cesur.ciudad}"
+            map.overlays.add(startMarker)
+        }
 
-                    override fun onItemLongPress(index: Int, item: OverlayItem?): Boolean {
-                        return false
-                    }
-                }, applicationContext
-            )
-        mOverlay.setFocusItemsOnTap(true)
-        map.getOverlays().add(mOverlay)
-        mapController.setCenter(GeoPoint(paisLatitud, paisLongitud))
+        mapController.setCenter(GeoPoint(cesurLatitud, cesurLongitud))
     }
 
-    public override fun onResume() {
+    override fun onResume() {
         super.onResume()
         map.onResume()
     }
 
-    public override fun onPause() {
+    override fun onPause() {
         super.onPause()
         map.onPause()
     }
