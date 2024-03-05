@@ -17,7 +17,6 @@ import org.osmdroid.views.overlay.Marker
 import org.osmdroid.views.overlay.OverlayItem
 private lateinit var map: MapView
 private lateinit var binding: ActivityOpenStreetMapsBinding
-private lateinit var mOverlay: ItemizedOverlayWithFocus<OverlayItem>
 
 class OpenStreetMapsActivity : AppCompatActivity() {
 
@@ -58,7 +57,7 @@ class OpenStreetMapsActivity : AppCompatActivity() {
             val startMarker = Marker(map)
             startMarker.position = punto
             startMarker.icon = ContextCompat.getDrawable(this, R.drawable.cesur2)
-            startMarker.title = "nombre" + "\n" + "${cesur.direccion}" + "\n" + "${cesur.ciudad}"
+            startMarker.title = "${cesur.nombre}" + "\n" + "${cesur.direccion}" + "\n" + "${cesur.ciudad}"
             map.overlays.add(startMarker)
         }
 

@@ -53,7 +53,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onItemSelected(cesur: Cesur) {
-        Toast.makeText(this, "Yo soy de ${cesur.nombre}", Toast.LENGTH_SHORT).show()
         // Para iniciar la actividad OpenStreetMapsActivity o en GoogleMapsActivity
         val intent = Intent(this, OpenStreetMapsActivity::class.java)
         //Aqui le meto solo lo que vaya a utilizar en el OpenStreetMaps
